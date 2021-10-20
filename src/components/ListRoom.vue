@@ -119,7 +119,7 @@ export default {
 
       let token = localStorage.getItem("token_access");
       axios
-        .get(`http://127.0.0.1:8000/room/`, {
+        .get(`https://proyecto-ciclo3-hotel.herokuapp.com/room/`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((result) => {
@@ -145,7 +145,7 @@ export default {
     processUpdateRoom: async function(){
       await this.verifyToken();
       axios
-        .put(`http://127.0.0.1:8000/room/${this.idUpdate}/update`, this.updateRoom, {
+        .put(`https://proyecto-ciclo3-hotel.herokuapp.com/room/${this.idUpdate}/update`, this.updateRoom, {
              headers: {Authorization: `Bearer ${localStorage.getItem("token_access")}`} 
             })
         .then((result) => {      
@@ -165,7 +165,7 @@ export default {
     verifyToken: function () {
       return axios
         .post(
-          "http://127.0.0.1:8000/refresh/",
+          "https://proyecto-ciclo3-hotel.herokuapp.com/refresh/",
           { refresh: localStorage.getItem("token_refresh") },
           { headers: {} }
         )
@@ -202,7 +202,7 @@ export default {
       if(confirm(`¿Estas seguro de borrar la habitación ${room_number}?`)){
       await this.verifyToken();
       axios
-        .delete(`http://127.0.0.1:8000/room/${room_number}/delete`, {
+        .delete(`https://proyecto-ciclo3-hotel.herokuapp.com/room/${room_number}/delete`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token_access")}`,
           },

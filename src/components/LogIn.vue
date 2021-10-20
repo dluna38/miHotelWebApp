@@ -38,7 +38,7 @@ export default {
     methods: {
         processLogInUser: function(){
             axios.post(
-                "http://127.0.0.1:8000/login/", 
+                "https://proyecto-ciclo3-hotel.herokuapp.com/login/", 
                 this.user,  
                 {headers: {}}
                 )

@@ -60,7 +60,7 @@ export default {
   methods: {
     processAddRoom: function () {
       axios
-        .post("http://127.0.0.1:8000/room/create/", this.room, {
+        .post("https://proyecto-ciclo3-hotel.herokuapp.com/room/create/", this.room, {
              headers: {Authorization: `Bearer ${localStorage.getItem("token_access")}`} 
             })
         .then((result) => {
