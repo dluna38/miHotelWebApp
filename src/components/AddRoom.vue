@@ -3,8 +3,12 @@
     <div class="container_signUp_user">
       <h2>Añadir habitación</h2>
       <form v-on:submit.prevent="processAddRoom">
+        <label>N° de habitación</label>
+        <br>
         <input type="number" v-model="room.room_number" placeholder="Ej. 101" />
-        <br />
+        <br/>
+        <label>Tipo de habitación</label>
+        <br>
         <select v-model="room.room_type">
           <option disabled value="">Seleccione un elemento</option>
           <option>IND</option>
@@ -13,12 +17,20 @@
           <option>OTR</option>
         </select>
         <br />
+        <label>Servicios de la habitación</label>
+        <br>
         <input type="text" v-model="room.room_description" placeholder="Ej. TV" />
-        <br />
+        <br>
+        <label>Capacidad de la habitación</label>
+        <br>
         <input type="number" v-model="room.capacity" placeholder="Ej. 1" />
         <br />
+        <label>Precio por noche</label>
+        <br>
         <input type="number" v-model="room.price" placeholder="Ej. 20000" />
         <br />
+        <label>Estado de la habitación</label>
+        <br>
         <select v-model="room.status_room">
           <option disabled value="">Seleccione un elemento</option>
           <option>DIS</option>
@@ -60,7 +72,7 @@ export default {
   methods: {
     processAddRoom: function () {
       axios
-        .post("https://proyecto-ciclo3-hotel.herokuapp.com/room/create/", this.room, {
+        .post("http://127.0.0.1:8000/room/create/", this.room, {
              headers: {Authorization: `Bearer ${localStorage.getItem("token_access")}`} 
             })
         .then((result) => {

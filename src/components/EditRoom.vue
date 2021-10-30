@@ -61,7 +61,7 @@ export default {
   methods: {
     processAddRoom: function () {
       axios
-        .update(`https://proyecto-ciclo3-hotel.herokuapp.com/room/${this.room_number}/update`, this.room, {
+        .update(`http://127.0.0.1:8000/room/${this.room_number}/update`, this.room, {
              headers: {Authorization: `Bearer ${localStorage.getItem("token_access")}`} 
             })
         .then((result) => {

@@ -16,10 +16,6 @@
 
                 <input type="email" v-model="user.email" placeholder="Email">
                 <br>
-
-                <input type="number" v-model="user.account.balance" placeholder="Initial Balance">
-                <br>
-
                 <button type="submit">Registrarse</button>
             </form>
         </div>
@@ -44,11 +40,6 @@ export default {
                 password: "",
                 name: "",
                 email: "",
-                account: {
-                    lastChangeDate: (new Date()).toJSON().toString(),
-                    balance: 0,
-                    isActive: true
-                }
             }
         }
     },
@@ -56,7 +47,7 @@ export default {
     methods: {
         processSignUp: function(){
             axios.post(
-                "https://proyecto-ciclo3-hotel.herokuapp.com/user/", 
+                "http://127.0.0.1:8000/user/", 
                 this.user,  
                 {headers: {}}
             )

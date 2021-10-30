@@ -4,11 +4,11 @@ import App from './App.vue';
 import LogIn from './components/LogIn.vue'
 import SignUp from './components/SignUp.vue'
 import Home from './components/Home.vue'
-import Account from './components/Account.vue'
 import ListRoom from './components/ListRoom.vue'
 import EditRoom from './components/EditRoom.vue'
 import AddRoom from './components/AddRoom.vue'
-
+import GuestList from './components/GuestList.vue'
+import ReservationList from './components/ReservationList.vue'
 
 const routes = [{
         path: '/',
@@ -31,11 +31,6 @@ const routes = [{
         component: Home
     },
     {
-        path: '/user/account',
-        name: "account",
-        component: Account
-    },
-    {
         path: '/room',
         name: "room",
         component: ListRoom
@@ -49,7 +44,17 @@ const routes = [{
         path: '/room/create',
         name: "addRoom",
         component: AddRoom
-    }
+    },
+    {
+        path: '/guest',
+        name: "guestList",
+        component: GuestList
+    },
+    {
+        path: '/reservation',
+        name: "reservationList",
+        component: ReservationList
+    },
 ];
 
 const router = createRouter({

@@ -2,11 +2,12 @@
   <div id="app" class="app">
 
     <div class="header">
-
       <h1> Mi Hotel </h1>
       <nav>
         <button v-if="is_auth" v-on:click="loadHome"> Inicio </button>
         <button v-if="is_auth" v-on:click="loadRooms"> Habitaciones </button>
+        <button v-if="is_auth" v-on:click="loadGuests"> Clientes </button>
+        <button v-if="is_auth" v-on:click="loadReservations"> Reservas </button>
         <button v-if="is_auth" v-on:click="logOut"> Cerrar Sesión </button>
         <button v-if="!is_auth" v-on:click="loadLogIn" > Iniciar Sesión </button>
         <button v-if="!is_auth" v-on:click="loadSignUp" > Registrarse </button>
@@ -25,7 +26,7 @@
     
 
     <div class="footer">
-      <h2>Misión TIC 2022</h2>
+      <h2>miHotel</h2>
     </div>
 
   </div>
@@ -84,7 +85,13 @@ export default {
     },
     loadRooms: function(){
       this.$router.push({name:"room"})
-    }, 
+    },
+    loadGuests: function(){
+      this.$router.push({name:"guestList"})
+    },
+    loadReservations: function(){
+      this.$router.push({name:"reservationList"})
+    },
     logOut: function () {
 			localStorage.clear();
 			alert("Sesión Cerrada");
@@ -111,7 +118,7 @@ export default {
   }
 
   nav button{
-    margin-right: 10px;
+    margin-right: 5px;
   }
 
   .header{
@@ -136,7 +143,7 @@ export default {
 
   .header nav {
     height: 100%;
-    width: 20%;
+    width: 35%;
 
     display: flex;
     justify-content: space-around;
