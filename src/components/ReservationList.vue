@@ -21,7 +21,7 @@
         <td>{{ rsv.room }}</td>
         <td>{{ rsv.num_guess }}</td>
         <td>
-          <button v-on:click="showDetailGuest(index)">Detalle</button>
+          <button v-on:click="showDetailReservation(index)">Detalle</button>
           <button v-on:click="showPaymentRsv(index)" disabled>Ver pago</button>
           <button v-on:click="loadEditReservation(index)" disabled>Editar</button>
           <button v-on:click="processDelete(rsv.id)">Eliminar</button>
@@ -79,9 +79,16 @@
   </ModalGuest>
   <ModalGuest v-show="isDetailReservationVisible" @close="closeDetailReservation">
     <template v-slot:header>
-      <h1>Crear Reserva</h1>
+      <h1>Reserva N° {{detailReservation.id}}</h1>
+      <br>
     </template>
     <template v-slot:body>
+      <p>Reserva del: <b>{{formatDate(detailReservation.check_in)}}</b> al <b>{{formatDate(detailReservation.check_out)}}</b></p>
+      
+      <p>Para: <b>{{guest.first_name}} {{guest.last_name}} </b><span v-if="detailReservation.num_guess > 1">, con <b>{{detailReservation.num_guess -1}}</b> huésped</span> </p>
+      <p>Contacto: Tel: <b>{{guest.phone}}</b>           Correo: <b>{{guest.email}}</b></p>
+      
+      <p>En la habitación: N° <b>{{detailReservation.room}}</b></p>
     </template>
     <template v-slot:footer></template>
   </ModalGuest>
@@ -100,6 +107,8 @@ export default {
   data: function () {
     return {
       updateReservation: {},
+      detailReservation:{},
+      guest:{},
       reservationList: [],
       guestList: [],
       roomList: [],
@@ -217,7 +226,23 @@ export default {
         alert('Algunos campos estan incompletos.')
       }
     },
-
+    getGuest:async function(id){
+      await this.verifyToken();
+      let token = localStorage.getItem("token_access");
+      axios
+        .get(`http://127.0.0.1:8000/guest/${id}/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((result) => {
+          if(result.data){
+            this.guest=result.data;
+          }
+        })
+        .catch((exce) => {
+          console.log(exce);
+          alert("No se pudo obtener la información del cliente")
+        });
+    },
     loadGuests: async function () {
       await this.verifyToken();
 
@@ -249,6 +274,7 @@ export default {
           result.data.forEach((element) => {
             this.roomList.push(element);
           });
+          this.roomList.sort( a => { if (a.status_room == "DIS") return -1} )
         })
         .catch((exce) => {
           console.log(exce);
@@ -297,7 +323,7 @@ export default {
     },
     showDetailReservation(indice) {
       this.detailReservation = this.reservationList[indice];
-      
+      this.getGuest(this.detailReservation.guest);
       this.isDetailReservationVisible = true;
     },
     closeDetailReservation() {
@@ -327,17 +353,17 @@ export default {
       var dateObj = new Date();
       try {
         dateObj.setTime(Date.parse(date));
-      } catch {
-        return date;
-      }
-      //dateObj.toLocaleDateString(format);
-      return Intl.DateTimeFormat(format, {
+        return Intl.DateTimeFormat(format, {
         year: "numeric",
         month: "short",
         day: "numeric",
         hour: "numeric",
         minute: "numeric",
       }).format(dateObj);
+      } catch {
+        return date;
+      }
+      
     },
     checkDates: async function (room, check_in, check_out) {
       await this.verifyToken();
